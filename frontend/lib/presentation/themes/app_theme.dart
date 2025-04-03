@@ -30,7 +30,6 @@ class AppTheme {
       secondary: secondaryColor,
       tertiary: accentColor,
       error: errorColor,
-      background: Colors.white,
       surface: Colors.grey[100]!,
     ),
     appBarTheme: const AppBarTheme(
@@ -78,9 +77,7 @@ class AppTheme {
       secondary: secondaryColor,
       tertiary: accentColor,
       error: errorColor,
-      background: backgroundColor,
       surface: surfaceColor,
-      onBackground: textPrimaryColor,
       onSurface: textPrimaryColor,
     ),
     scaffoldBackgroundColor: backgroundColor,
