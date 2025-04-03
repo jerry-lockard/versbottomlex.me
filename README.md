@@ -11,11 +11,13 @@ Key features include:
 - **Secure payment systems** 💳
 - **Biometric authentication** 🛡️
 - Interactive features like **tipping** 💰 and **private shows** 🔒
+- **Multi-camera support** with four simultaneous feeds 📹
 
 Future plans:
 - **AI moderation** 🤖
 - Enhanced **monetization strategies** 💵
 - Development of **iOS** 📱 and **Android** 📱 apps
+- **Cryptocurrency payment** integration 💲
 
 ---
 
@@ -66,11 +68,14 @@ Future plans:
 
 ### 🌐 **Front-End Development** 💻
 - **Flutter**: Cross-platform compatibility for web, Android, and iOS 📱.
-- **Tailwind CSS** or **Material Design** for **beautiful**, **responsive** UI styling 🎨.
+- **Material Design** for **beautiful**, **responsive** UI styling 🎨.
+- **Provider** for state management and reactive UI updates ⚡.
 
 ### 🏗️ **Back-End & Database** 🗃️
-- **Dart** for efficient **server-side logic** and **performance** ⚡.
+- **Node.js** for efficient **server-side logic** and **performance** ⚡.
+- **Express** for robust API development and request handling 🔄.
 - **PostgreSQL** for **secure**, **high-performance data storage** 🔐.
+- **JWT** authentication for secure user sessions 🔒.
 
 ### 🌩️ **Hosting & Infrastructure** 🌍
 - **Ubuntu 24.04** server with **Docker** for seamless, containerized deployment 🐳.
@@ -108,3 +113,25 @@ Future plans:
 ## 🏁 **Conclusion** 🎉
 
 **VersBottomLex.me** is a **visionary** personal adult webcam platform, built on a **solid technical foundation**. Our **roadmap** outlines our path to scalability and future monetization, starting with **high-quality streaming**, **secure payments**, and **user engagement** features. With the right strategy, this platform is poised for growth and could ultimately expand into a **larger-scale adult entertainment hub**.
+
+---
+
+## 💻 **Development Setup** 🛠️
+
+### 🌱 **Prerequisites**
+- Flutter SDK v3.19+ for frontend development
+- Node.js v18+ for backend development
+- PostgreSQL v14+ for database
+
+### 📦 **Installation**
+1. Clone the repository
+2. Setup frontend: `cd frontend && flutter pub get`
+3. Setup backend: `cd backend && npm install`
+
+### 🚀 **Running the Application**
+- Frontend: `cd frontend && flutter run`
+- Backend: `cd backend && npm start`
+
+### 🧪 **Testing**
+- Frontend tests: `cd frontend && flutter test`
+- Backend tests: `cd backend && npm test`
