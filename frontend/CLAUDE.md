@@ -1,0 +1,1 @@
+- The frontend directory is being built using Flutter and the backend directory uses npm.

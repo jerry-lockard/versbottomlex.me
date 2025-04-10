@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const authController = require('../controllers/auth.controller');
 const { verifyToken } = require('../middleware/auth.middleware');
 const { validate } = require('../middleware/validation.middleware');
+const { authLimiter, sensitiveOpLimiter } = require('../middleware/rate-limit.middleware');
 
 const router = express.Router();
 
@@ -45,6 +46,7 @@ const router = express.Router();
 router.post(
   '/register',
   [
+    authLimiter,
     body('username')
       .trim()
       .isLength({ min: 3, max: 50 })
@@ -55,7 +57,9 @@ router.post(
       .withMessage('Please enter a valid email'),
     body('password')
       .isLength({ min: 8 })
-      .withMessage('Password must be at least 8 characters long'),
+      .withMessage('Password must be at least 8 characters long')
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]+$/)
+      .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
     body('role')
       .optional()
       .isIn(['viewer', 'performer'])
@@ -95,6 +99,7 @@ router.post(
 router.post(
   '/login',
   [
+    authLimiter,
     body('email')
       .trim()
       .isEmail()
@@ -190,12 +195,15 @@ router.post(
   '/change-password',
   [
     verifyToken,
+    sensitiveOpLimiter,
     body('currentPassword')
       .notEmpty()
       .withMessage('Current password is required'),
     body('newPassword')
       .isLength({ min: 8 })
-      .withMessage('New password must be at least 8 characters long'),
+      .withMessage('New password must be at least 8 characters long')
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]+$/)
+      .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
     validate,
   ],
   authController.changePassword

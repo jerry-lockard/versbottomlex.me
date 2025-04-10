@@ -13,7 +13,11 @@ const generateToken = (user) => {
       tokenVersion: user.tokenVersion
     },
     jwtConfig.secret,
-    { expiresIn: jwtConfig.expiresIn }
+    { 
+      expiresIn: jwtConfig.expiresIn,
+      issuer: jwtConfig.issuer,
+      audience: jwtConfig.audience
+    }
   );
 };
 
@@ -26,8 +30,12 @@ const generateRefreshToken = (user) => {
       id: user.id,
       tokenVersion: user.tokenVersion
     },
-    jwtConfig.secret,
-    { expiresIn: jwtConfig.refreshExpiresIn }
+    jwtConfig.refreshSecret,
+    { 
+      expiresIn: jwtConfig.refreshExpiresIn,
+      issuer: jwtConfig.issuer,
+      audience: jwtConfig.audience
+    }
   );
 };
 
@@ -172,7 +180,7 @@ exports.refresh = async (req, res) => {
     }
     
     // Verify refresh token
-    const decoded = jwt.verify(refreshToken, jwtConfig.secret);
+    const decoded = jwt.verify(refreshToken, jwtConfig.refreshSecret);
     
     // Get user
     const user = await User.findByPk(decoded.id);

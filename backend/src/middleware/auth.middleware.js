@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const jwtConfig = require('../config/jwt');
+const logger = require('../utils/logger');
 
 /**
  * Middleware to verify JWT token and set user in request
@@ -18,25 +19,42 @@ exports.verifyToken = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
     
-    const decoded = jwt.verify(token, jwtConfig.secret);
+    // Verify token with issuer and audience checks
+    const decoded = jwt.verify(token, jwtConfig.secret, {
+      issuer: jwtConfig.issuer,
+      audience: jwtConfig.audience
+    });
     
-    const user = await User.findByPk(decoded.id);
+    // Get the user with limited attributes for security
+    const user = await User.findByPk(decoded.id, {
+      attributes: { exclude: ['password'] } // Don't load password into memory
+    });
     
     if (!user) {
+      logger.warn(`Token verification failed: User not found, ID: ${decoded.id}`);
       return res.status(401).json({ 
         status: 'error', 
-        message: 'User not found' 
+        message: 'Authentication failed' 
       });
     }
     
     // Check token version (for invalidating tokens when password changes)
     if (user.tokenVersion !== decoded.tokenVersion) {
+      logger.warn(`Token version mismatch for user ${user.id}: ${decoded.tokenVersion} vs ${user.tokenVersion}`);
       return res.status(401).json({ 
         status: 'error', 
-        message: 'Token is invalid, please login again' 
+        message: 'Session expired, please login again' 
       });
     }
     
+    // CSRF Protection: In a production system, you would check for CSRF tokens here
+    // const csrfToken = req.headers['x-csrf-token'];
+    // if (!csrfToken || !validateCsrfToken(csrfToken, user.id)) {
+    //   return res.status(403).json({ status: 'error', message: 'CSRF validation failed' });
+    // }
+    
+    // Add a timestamp for the request to track usage
+    req.authTime = new Date();
     req.user = user;
     next();
   } catch (error) {
@@ -48,16 +66,18 @@ exports.verifyToken = async (req, res, next) => {
     }
     
     if (error.name === 'JsonWebTokenError') {
+      logger.warn(`Invalid token: ${error.message}`);
       return res.status(401).json({ 
         status: 'error', 
-        message: 'Invalid token' 
+        message: 'Invalid authentication' 
       });
     }
     
+    logger.error('Auth middleware error:', error);
     return res.status(500).json({ 
       status: 'error', 
-      message: 'Internal server error', 
-      error: error.message 
+      message: 'Authentication error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 };

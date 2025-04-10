@@ -16,6 +16,13 @@ class AppLogger {
 
   // Private constructor to prevent instantiation
   AppLogger._();
+  
+  // Initialize the logger
+  static void init() {
+    if (kDebugMode) {
+      print('Logger initialized');
+    }
+  }
 
   // Debug log
   static void d(dynamic message, [dynamic error, StackTrace? stackTrace]) {

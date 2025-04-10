@@ -1,4 +1,4 @@
-const sequelize = require('../config/database');
+const { sequelize } = require('../config/database');
 const User = require('./user.model');
 const Stream = require('./stream.model');
 const Payment = require('./payment.model');
