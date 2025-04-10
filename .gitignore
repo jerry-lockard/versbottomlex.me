@@ -1,21 +1,59 @@
 # General
 .DS_Store
 *.log
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment Variables
 .env
+.env.*
 .env.local
+.env.development
+.env.staging
+.env.production
 .env.development.local
 .env.test.local
 .env.production.local
+*.env
+env.*.js
+.vercel
+.netlify
+
+# Secrets and Keys
+*.pem
+*.key
+*.p8
+*.p12
+*.cert
+*.crt
+*.pfx
+*.der
+*.priv
+*.keystore
+*.jks
+google-services.json
+firebase-service-account.json
+serviceAccount*.json
+*firebase*.json
+*secret*.json
+*key*.json
+*credential*.json
+*token*.json
+*auth*.json
+*.asc
 
 # Node.js Backend
 backend/node_modules/
 backend/dist/
 backend/build/
 backend/coverage/
-backend/.env
+backend/.env*
 backend/npm-debug.log*
 backend/yarn-debug.log*
 backend/yarn-error.log*
+backend/config/*.json
+backend/prisma/*.db
 
 # Flutter/Dart
 frontend/.dart_tool/
@@ -40,6 +78,35 @@ frontend/.metadata
 .project
 .settings/
 
+# Logs and Databases
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+dump.rdb
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+.cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
 # Miscellaneous
 *.class
 *.pyc
@@ -47,3 +114,17 @@ frontend/.metadata
 .atom/
 .buildlog/
 .history
+sitemap.xml
+sitemap.xml.gz
+.gradle/
+out/
+.firebase/
+.vercel/
+.netlify/
+.parcel-cache/
+
+# OS generated files
+.directory
+.fuse_hidden*
+.Trash-*
+.nfs*
