@@ -1,15 +1,64 @@
-Create a Node.js API endpoint for the following feature in the VersBottomLex.me backend:
+# Node.js API Endpoint Generator
 
-Endpoint: {{endpoint_path}}
-Purpose: {{purpose}}
-Request method: {{GET/POST/PUT/DELETE}}
-Required authentication: {{Yes/No}}
-Request parameters:
-- {{param_name}}: {{description}}
+Create a production-ready RESTful API endpoint for the VersBottomLex.me backend following our architecture patterns.
 
-Please include:
-1. Complete implementation with proper error handling
-2. Input validation
-3. Authentication checks if required
-4. Documentation comments
-5. Example request/response
+## Endpoint Specification
+- **Path**: `{{endpoint_path}}`
+- **HTTP Method**: `{{GET|POST|PUT|DELETE|PATCH}}`
+- **Controller**: `src/controllers/{{controller_name}}.controller.js`
+- **Route File**: `src/routes/{{route_file}}.routes.js`
+- **Purpose**: {{purpose}}
+
+## Authentication & Authorization
+- **Requires Auth**: `{{Yes|No}}`
+- **Auth Type**: `{{JWT|API Key|None}}`
+- **Required Role**: `{{user|admin|streamer|moderator|any}}`
+
+## Request Details
+### Headers
+- Content-Type: `{{content_type}}`
+- Accept: `application/json`
+
+### Parameters
+| Name | Type | Required | Location | Description |
+|------|------|----------|----------|-------------|
+{{request_parameters}}
+
+### Request Body
+```json
+{
+  {{request_body_example}}
+}
+```
+
+## Response Details
+### Success Response ({{status_code}})
+```json
+{
+  {{success_response_example}}
+}
+```
+
+### Error Responses
+| Status | Description | Example |
+|--------|-------------|---------|
+| 400 | Bad Request | `{"error": "Invalid parameters"}` |
+| 401 | Unauthorized | `{"error": "Authentication required"}` |
+| 403 | Forbidden | `{"error": "Insufficient permissions"}` |
+| 404 | Not Found | `{"error": "Resource not found"}` |
+| 500 | Server Error | `{"error": "Internal server error"}` |
+
+## Implementation Requirements
+- [ ] Use Express Router and Controller pattern
+- [ ] Implement input validation using middleware
+- [ ] Apply proper error handling with api-error.js
+- [ ] Add comprehensive logging with logger.js
+- [ ] Document with JSDoc comments
+- [ ] Write unit tests in `/backend/tests/`
+- [ ] Respect RESTful principles
+- [ ] Add rate limiting for public endpoints
+
+## Database Interactions
+- **Models**: `{{model_name}}.model.js`
+- **Operations**: `{{create|read|update|delete|query}}`
+- **Transactions**: `{{Yes|No}}`

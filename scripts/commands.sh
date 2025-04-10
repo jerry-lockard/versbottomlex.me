@@ -1,34 +1,60 @@
-# Create all necessary directories for organizing Claude Code commands
+#!/bin/bash
+# ============================================================================
+# VersBottomLex.me - Claude Code Command Setup Script
+# ============================================================================
+# This script creates a structured directory of command files for use with
+# Claude Code. Each command file contains a template that guides Claude in
+# generating specific code, documentation, or performing analysis.
+#
+# Usage: bash scripts/commands.sh
+# ============================================================================
 
-# Top-level commands directory
-mkdir -p .claude/commands
+set -e  # Exit on any error
 
-# Frontend-related commands
-mkdir -p .claude/commands/frontend
+echo "Setting up Claude Code command structure..."
 
-# Backend-related commands
-mkdir -p .claude/commands/backend
+# Create base directory if it doesn't exist
+if [ ! -d ".claude" ]; then
+  mkdir -p .claude
+  echo "Created .claude directory"
+fi
 
-# Server configuration commands
-mkdir -p .claude/commands/server
+# Create commands directory if it doesn't exist
+if [ ! -d ".claude/commands" ]; then
+  mkdir -p .claude/commands
+  echo "Created .claude/commands directory"
+fi
 
-# Project management commands
-mkdir -p .claude/commands/project
+# Define all command categories
+CATEGORIES=(
+  "frontend"   # Flutter UI and client-side functionality
+  "backend"    # Node.js API and server-side functionality
+  "server"     # Infrastructure and deployment
+  "project"    # Project management and planning
+  "docs"       # Documentation generation
+  "business"   # Marketing, monetization, and business logic
+  "utility"    # Developer tools and utilities
+)
 
-# Documentation and change tracking
-mkdir -p .claude/commands/docs
+# Create directory for each category
+for category in "${CATEGORIES[@]}"; do
+  if [ ! -d ".claude/commands/$category" ]; then
+    mkdir -p ".claude/commands/$category"
+    echo "Created .claude/commands/$category directory"
+  fi
+done
 
-# Business and marketing commands
-mkdir -p .claude/commands/business
+echo "Directory structure created successfully!"
 
-# Development utilities
-mkdir -p .claude/commands/utility
-
-# Creating the command files for each directory
+# ============================================================================
+# Creating command files for each category
+# ============================================================================
+echo "Generating command templates..."
 
 # ---------------------------------------------
 # DOCS DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating documentation commands..."
 
 # 1. README Generator
 cat > .claude/commands/docs/readme-generate.md << 'EOF'
@@ -98,9 +124,12 @@ The commit message should:
 5. Mention affected components (frontend/backend/etc.)
 EOF
 
+echo "Documentation commands created successfully!"
+
 # ---------------------------------------------
 # FRONTEND DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating frontend commands..."
 
 # 1. Flutter UI Component Generator
 cat > .claude/commands/frontend/component.md << 'EOF'
@@ -229,9 +258,12 @@ Create a complete Firebase integration for the VersBottomLex.me Flutter app that
 5. Analytics configuration
 EOF
 
+echo "Frontend commands created successfully!"
+
 # ---------------------------------------------
 # BACKEND DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating backend commands..."
 
 # 1. Node.js API Endpoint
 cat > .claude/commands/backend/api-endpoint.md << 'EOF'
@@ -351,9 +383,12 @@ Design and implement an analytics tracking system for VersBottomLex.me that:
 5. Includes dashboard visualization options
 EOF
 
+echo "Backend commands created successfully!"
+
 # ---------------------------------------------
 # SERVER DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating server commands..."
 
 # 1. Nginx Configuration
 cat > .claude/commands/server/nginx-config.md << 'EOF'
@@ -469,9 +504,12 @@ Create a comprehensive database backup automation script for VersBottomLex.me th
 5. Includes restoration testing procedure
 EOF
 
+echo "Server commands created successfully!"
+
 # ---------------------------------------------
 # PROJECT DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating project management commands..."
 
 # 1. Project Status
 cat > .claude/commands/project/status.md << 'EOF'
@@ -538,9 +576,12 @@ Create a complete testing strategy for VersBottomLex.me that includes:
 Include example tests for critical components.
 EOF
 
+echo "Project management commands created successfully!"
+
 # ---------------------------------------------
 # BUSINESS DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating business commands..."
 
 # 1. SEO Optimization
 cat > .claude/commands/business/seo.md << 'EOF'
@@ -602,70 +643,246 @@ Analyze the current VersBottomLex.me platform and provide a detailed monetizatio
 5. Payment processing optimization
 EOF
 
+echo "Business commands created successfully!"
+
 # ---------------------------------------------
 # UTILITY DIRECTORY COMMANDS
 # ---------------------------------------------
+echo "Creating utility commands (with enhanced Claude Code format)..."
 
 # 1. Code Generator
 cat > .claude/commands/utility/code-generator.md << 'EOF'
+# Code Generator
+
 Generate boilerplate code for a new feature in VersBottomLex.me:
 
-Feature name: {{feature_name}}
-Type: {{frontend/backend/both}}
-Description: {{feature_description}}
-Dependencies: {{related_packages_or_libraries}}
+## Input Parameters
+- Feature name: {{feature_name}}
+- Type: {{frontend/backend/both}}
+- Description: {{feature_description}}
+- Dependencies: {{related_packages_or_libraries}}
 
+## Instructions
 Generate all necessary files, classes, and methods for implementing this feature.
+The code should follow the project's existing patterns and best practices.
+
+## Output Format
+Provide the files as code blocks with appropriate file paths and explanations
+for how they interact with the existing codebase.
+
+```
+file: /path/to/new/file.ext
+```
+
+[Your code here]
+
+## Implementation Notes
+- Ensure all necessary imports are included
+- Follow the existing architecture patterns
+- Include appropriate error handling
+- Add comments explaining complex logic
 EOF
 
 # 2. Dependency Analyzer
 cat > .claude/commands/utility/dependencies.md << 'EOF'
-Analyze the dependencies in the VersBottomLex.me project and provide:
+# Dependency Analysis
 
-1. List of outdated packages
-2. Security vulnerability assessment
-3. Suggestions for alternative packages where beneficial
-4. Size and performance impact analysis
-5. Recommendations for pruning unnecessary dependencies
+## Task Description
+Analyze the dependencies in the VersBottomLex.me project and provide a comprehensive assessment.
+
+## Input Parameters
+- Project section to analyze: {{frontend/backend/both}}
+- Focus areas: {{security/performance/size/all}}
+
+## Analysis Requirements
+Please provide the following in your analysis:
+
+1. **Outdated Packages**
+   - List packages that need updating
+   - Current vs. latest versions
+   - Breaking changes to be aware of
+
+2. **Security Assessment**
+   - Known vulnerabilities in current dependencies
+   - CVSS scores for identified vulnerabilities
+   - Remediation recommendations
+
+3. **Package Alternatives**
+   - Recommendations for better alternatives
+   - Comparison of features and tradeoffs
+   - Migration complexity assessment
+
+4. **Performance Impact**
+   - Bundle size analysis
+   - Startup time impact
+   - Runtime performance considerations
+
+5. **Optimization Recommendations**
+   - Unused dependencies to remove
+   - Consolidation opportunities
+   - Specific upgrade paths with code examples
+
+## Output Format
+Provide your analysis in a structured format with clear headers and actionable recommendations.
+Include specific commands for implementing your recommendations where applicable.
 EOF
 
 # 3. Performance Profiler
 cat > .claude/commands/utility/performance.md << 'EOF'
-Analyze the performance of the following component in VersBottomLex.me:
+# Performance Analysis
 
-Component: {{component_name}}
-Type: {{frontend/backend}}
+## Component to Analyze
+- Component name: {{component_name}}
+- Type: {{frontend/backend}}
+- Main functionality: {{brief_description}}
 
-Provide:
-1. Performance bottlenecks identification
-2. Memory usage analysis
-3. Specific optimization recommendations
-4. Before/after metrics projections
-5. Implementation plan for improvements
+## Analysis Scope
+Perform a comprehensive performance analysis of the specified component, focusing on execution efficiency, memory usage, and user experience impact.
+
+## Required Analysis
+
+1. **Bottleneck Identification**
+   - Time complexity analysis of key algorithms
+   - Execution profiling to identify slow operations
+   - Rendering performance (if frontend)
+   - Database query efficiency (if backend)
+
+2. **Memory Usage Analysis**
+   - Memory leak detection
+   - Heap allocation patterns
+   - Garbage collection impact
+   - Cache utilization effectiveness
+
+3. **Optimization Recommendations**
+   - Algorithm improvements
+   - Caching strategies
+   - Code refactoring suggestions
+   - Asset optimization (if frontend)
+
+4. **Metrics Projection**
+   - Current performance baseline
+   - Expected improvements with optimizations
+   - Quantified metrics (response times, memory usage, etc.)
+   - User experience impact
+
+5. **Implementation Plan**
+   - Prioritized list of optimizations
+   - Code examples for key improvements
+   - Testing strategy to validate improvements
+   - Progressive implementation approach
+
+## Output Format
+Provide a structured report with code examples, metrics, and clear recommendations.
+Use tables and comparative analysis where appropriate.
 EOF
 
 # 4. Code Quality Check
 cat > .claude/commands/utility/code-quality.md << 'EOF'
-Perform a comprehensive code quality analysis on the following file/directory:
+# Code Quality Analysis
 
-Path: {{file_or_directory_path}}
+## Target for Analysis
+- Path: {{file_or_directory_path}}
+- Language/Framework: {{language_or_framework}}
+- Purpose: {{brief_description}}
 
-Include:
-1. Linting issues
-2. Code smells
-3. Potential bugs
-4. Performance concerns
-5. Maintainability improvements
+## Analysis Requirements
+Perform a comprehensive code quality assessment with actionable recommendations.
+
+## Analysis Categories
+
+1. **Linting & Style Issues**
+   - Code style inconsistencies
+   - Formatting problems
+   - Violation of project conventions
+   - Unused imports or variables
+
+2. **Code Smells**
+   - Duplicate code
+   - Long methods/functions
+   - Complex conditionals
+   - Excessive nesting
+   - Poor naming conventions
+
+3. **Potential Bugs**
+   - Null/undefined reference risks
+   - Race conditions
+   - Resource leaks
+   - Error handling gaps
+   - Type inconsistencies
+
+4. **Performance Concerns**
+   - Inefficient algorithms
+   - Unnecessary computations
+   - Suboptimal data structures
+   - Rendering inefficiencies (if frontend)
+   - Query performance (if backend)
+
+5. **Maintainability Improvements**
+   - Documentation needs
+   - Test coverage gaps
+   - Architecture violations
+   - Refactoring opportunities
+   - Modularization suggestions
+
+## Output Format
+Provide findings in a structured report with:
+- Severity ratings for each issue
+- Code examples showing problems
+- Suggested fixes with code snippets
+- Prioritized recommendations
+
+For critical issues, provide complete replacement code blocks that can be directly implemented.
 EOF
 
 # 5. API Documentation Generator
 cat > .claude/commands/utility/api-docs.md << 'EOF'
-Generate comprehensive API documentation for the VersBottomLex.me backend endpoints:
+# API Documentation Generator
 
-Include:
-1. OpenAPI/Swagger specification
-2. Endpoint descriptions
-3. Request/response models
-4. Authentication requirements
-5. Example requests and responses
+## Documentation Scope
+Generate comprehensive API documentation for the VersBottomLex.me backend endpoints.
+
+## Input Parameters
+- API category: {{api_category}}
+- Format desired: {{swagger/markdown/both}}
+- Include examples: {{yes/no}}
+
+## Documentation Requirements
+
+1. **OpenAPI/Swagger Specification**
+   - Complete specification in YAML format
+   - API version information
+   - Server configurations
+   - Global parameters and security schemes
+
+2. **Endpoint Descriptions**
+   - Grouped by resource/functionality
+   - Purpose and usage context
+   - Rate limiting information
+   - Deprecation notices where applicable
+
+3. **Request/Response Models**
+   - Complete schema definitions
+   - Required vs. optional fields
+   - Data types and constraints
+   - Relationships between models
+
+4. **Authentication & Authorization**
+   - Auth mechanisms for each endpoint
+   - Required permissions/scopes
+   - Token usage instructions
+   - Error responses for auth failures
+
+5. **Example Requests/Responses**
+   - Curl command examples
+   - Request body samples in JSON
+   - Response examples for success cases
+   - Response examples for common error cases
+
+## Output Format
+Provide the documentation in the requested format(s):
+- If Swagger: Complete YAML file ready for import to Swagger UI
+- If Markdown: Well-structured documentation with proper headers and code blocks
+- If both: Both formats with consistent information
+
+Ensure all examples are valid and reflect the actual API behavior.
 EOF

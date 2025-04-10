@@ -1,7 +1,20 @@
 #!/bin/bash
-# SSL Certificate Setup and Auto-Renewal Script for versbottomlex.me
+# ============================================================================
+# VersBottomLex.me - SSL Certificate Setup and Auto-Renewal Script
+# ============================================================================
 # This script handles installation of Certbot, obtaining certificates,
-# configuring Nginx for HTTPS, and setting up auto-renewal.
+# configuring Nginx for HTTPS, and setting up auto-renewal for the
+# VersBottomLex.me webcam streaming platform.
+#
+# Usage: 
+#   export PRIMARY_DOMAIN="versbottomlex.me"
+#   export EMAIL="admin@versbottomlex.me"
+#   sudo -E bash scripts/ssl-setup.sh
+# ============================================================================
+
+# Script directory - to determine project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
 set -e  # Exit on any error
 set -u  # Treat unset variables as errors
@@ -13,10 +26,23 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Check if required environment variables are set
+if [ -z "${PRIMARY_DOMAIN:-}" ]; then
+  echo -e "${RED}ERROR: PRIMARY_DOMAIN environment variable is not set${NC}"
+  echo -e "Please set it with: export PRIMARY_DOMAIN=\"yourdomain.com\""
+  exit 1
+fi
+
+if [ -z "${EMAIL:-}" ]; then
+  echo -e "${RED}ERROR: EMAIL environment variable is not set${NC}"
+  echo -e "Please set it with: export EMAIL=\"admin@yourdomain.com\""
+  exit 1
+fi
+
 # Domain configuration
-PRIMARY_DOMAIN="versbottomlex.me"
-WWW_DOMAIN="www.versbottomlex.me"
-EMAIL="admin@versbottomlex.me"  # Change this to your email
+# PRIMARY_DOMAIN is set from environment
+WWW_DOMAIN="www.${PRIMARY_DOMAIN}"  # Automatically set based on PRIMARY_DOMAIN
+# EMAIL is set from environment
 
 # Nginx paths
 NGINX_AVAILABLE="/etc/nginx/sites-available"
@@ -295,6 +321,11 @@ test_ssl_config() {
   
   # Suggest online SSL test
   log "For a comprehensive SSL test, use: https://www.ssllabs.com/ssltest/analyze.html?d=${PRIMARY_DOMAIN}"
+
+  # Print the configured domains for reference
+  log "Primary domain: ${PRIMARY_DOMAIN}"
+  log "www domain: ${WWW_DOMAIN}"
+  log "Contact email: ${EMAIL}"
 }
 
 # Main execution flow
@@ -316,6 +347,51 @@ main() {
   info "1. Regularly monitor certificate renewals: grep 'certbot' /var/log/syslog"
   info "2. Consider setting up a monitoring system to alert on certificate expiry"
   info "3. Run an SSL test at: https://www.ssllabs.com/ssltest/"
+  info "4. Update your application to use HTTPS URLs"
+  
+  # Create a summary file in the logs directory
+  mkdir -p "$ROOT_DIR/logs"
+  SSL_SUMMARY_FILE="$ROOT_DIR/logs/ssl_setup_$(date +"%Y%m%d_%H%M%S").log"
+  
+  {
+    echo "SSL Certificate Setup Summary for ${PRIMARY_DOMAIN}"
+    echo "=================================================="
+    echo "Setup Date: $(date)"
+    echo ""
+    echo "Domain Information:"
+    echo "- Primary Domain: ${PRIMARY_DOMAIN}"
+    echo "- WWW Domain: ${WWW_DOMAIN}"
+    echo "- Contact Email: ${EMAIL}"
+    echo ""
+    echo "Certificate Location:"
+    echo "- Certificate: /etc/letsencrypt/live/${PRIMARY_DOMAIN}/fullchain.pem"
+    echo "- Private Key: /etc/letsencrypt/live/${PRIMARY_DOMAIN}/privkey.pem"
+    echo "- Chain: /etc/letsencrypt/live/${PRIMARY_DOMAIN}/chain.pem"
+    echo ""
+    echo "Renewal Information:"
+    echo "- Auto-renewal is configured via systemd timer or cron"
+    echo "- Nginx will be automatically reloaded after renewal"
+    echo ""
+    echo "Next Steps:"
+    echo "1. Monitor certificate health: certbot certificates"
+    echo "2. Test your SSL configuration at: https://www.ssllabs.com/ssltest/"
+    echo "3. Set up monitoring for certificate expiration"
+    echo ""
+    echo "SSL Setup completed successfully!"
+  } > "$SSL_SUMMARY_FILE"
+  
+  log "SSL summary has been saved to: $SSL_SUMMARY_FILE"
+  
+  # Reminder about environment variables
+  info "Note: This script used the following environment variables:"
+  info "PRIMARY_DOMAIN=${PRIMARY_DOMAIN}"
+  info "WWW_DOMAIN=${WWW_DOMAIN}"
+  info "EMAIL=${EMAIL}"
+  
+  # Suggestion to update frontend configuration
+  if [ -f "$ROOT_DIR/frontend/.env" ]; then
+    log "Consider updating your frontend .env file to use HTTPS URLs"
+  fi
 }
 
 # Run the main function
