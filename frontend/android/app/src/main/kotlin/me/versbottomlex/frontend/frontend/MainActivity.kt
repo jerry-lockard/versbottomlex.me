@@ -1,4 +1,4 @@
-package me.versbottomlex.frontend.frontend
+package me.versbottomlex.frontend
 
 import io.flutter.embedding.android.FlutterActivity
 
