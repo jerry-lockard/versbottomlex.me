@@ -1,0 +1,49 @@
+# General
+.DS_Store
+*.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Node.js Backend
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/coverage/
+backend/.env
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+
+# Flutter/Dart
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/build/
+frontend/.pub-cache/
+frontend/.pub/
+frontend/coverage/
+frontend/android/key.properties
+frontend/ios/Flutter/.last_build_id
+frontend/**/doc/api/
+frontend/.metadata
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# Miscellaneous
+*.class
+*.pyc
+*.swp
+.atom/
+.buildlog/
+.history
