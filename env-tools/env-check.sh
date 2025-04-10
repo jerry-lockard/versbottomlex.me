@@ -3,7 +3,7 @@
 # This script checks if all required variables are set and have valid values
 
 if [ ! -f .env ]; then
-  echo "Error: No .env file found. Run setup-env.sh first to create one."
+  echo "Error: No .env file found. Run env-setup.sh first to create one."
   exit 1
 fi
 

@@ -8,24 +8,20 @@ The easiest way to set up your environment is to use the setup wizard:
 
 ```bash
 # Run the setup wizard
-./setup-env-wizard.sh
+./env-tools/env-setup.sh
 ```
 
 This interactive wizard provides a menu-driven interface for all environment variable management tasks.
 
 ## Available Tools
 
-### Basic Setup Scripts
+### Main Tools
 
-- **`setup-env.sh`**: Interactive setup that prompts for each variable
-- **`my-setup-env.sh`**: Pre-configured setup with default values
-- **`setup-env-wizard.sh`**: Menu-driven interface for all env management tasks
-
-### Management Tools
-
-- **`view-env.sh`**: Display current environment variables in a readable format
-- **`check-env.sh`**: Validate environment variables for correctness
-- **`export-env.sh`**: Export variables to your current shell session
+- **`.env`**: Main environment variables file 
+- **`env-setup.sh`**: Menu-driven interface for managing environment variables
+- **`env-check.sh`**: Validate environment variables for correctness
+- **`env-view.sh`**: Display current environment variables in a readable format
+- **`env-export.sh`**: Export variables to your current shell session
 
 ### Documentation
 
@@ -36,14 +32,8 @@ This interactive wizard provides a menu-driven interface for all environment var
 ### Setting Up Environment Variables
 
 ```bash
-# Option 1: Use the wizard (recommended)
-./setup-env-wizard.sh
-
-# Option 2: Interactive setup
-./setup-env.sh
-
-# Option 3: Use pre-configured settings
-./my-setup-env.sh
+# Use the wizard
+./env-tools/env-setup.sh
 ```
 
 ### Validating Your Configuration
@@ -51,19 +41,19 @@ This interactive wizard provides a menu-driven interface for all environment var
 After setting up your environment variables, verify they're correct:
 
 ```bash
-./check-env.sh
+./env-tools/env-check.sh
 ```
 
 ### Viewing Current Settings
 
 ```bash
-./view-env.sh
+./env-tools/env-view.sh
 ```
 
 ### Exporting to Your Shell
 
 ```bash
-source ./export-env.sh
+source ./env-tools/env-export.sh
 ```
 
 **Note**: You must use `source` (or `.`) to run this script for the exports to affect your current shell.

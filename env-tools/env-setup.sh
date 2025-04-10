@@ -17,6 +17,10 @@ echo
 echo "This wizard will help you configure and manage"
 echo "environment variables for your application."
 echo
+echo "⚠️  SECURITY WARNING: Environment files contain sensitive information."
+echo "   NEVER commit .env files to version control!"
+echo "   Your .gitignore should be configured to exclude these files."
+echo
 
 # Function to draw menu
 draw_menu() {
@@ -56,24 +60,48 @@ while true; do
   case $menu_choice in
     1)
       # Create/Update Environment Variables
-      run_script "./setup-env.sh"
+      # Create a basic .env file if it doesn't exist
+      if [ ! -f .env ]; then
+        echo "Creating a new .env file..."
+        touch .env
+        echo "# Core Application Settings" >> .env
+        echo "APP_NAME=versbottomlex" >> .env
+        echo "NODE_ENV=development" >> .env
+        echo "" >> .env
+        echo "# Database Configuration" >> .env
+        echo "DB_NAME=app_database" >> .env
+        echo "DB_USER=postgres" >> .env
+        echo "DB_PASSWORD=postgres" >> .env
+        echo "DB_HOST=localhost" >> .env
+        echo "DB_PORT=5432" >> .env
+      fi
+      # Open with default editor if available
+      if command -v nano &>/dev/null; then
+        nano .env
+      elif command -v vim &>/dev/null; then
+        vim .env
+      else 
+        echo "No editor found. Please edit .env manually."
+        read -p "Press Enter to continue..."
+      fi
       ;;
     2)
       # View Current Environment Variables
-      run_script "./env-tools/view-env.sh"
+      run_script "./env-tools/env-view.sh"
       ;;
     3)
       # Validate Environment Configuration
-      run_script "./env-tools/check-env.sh"
+      run_script "./env-tools/env-check.sh"
       ;;
     4)
-      # Load Predefined Configuration
-      run_script "./my-setup-env.sh"
+      # Option removed - Load Predefined Configuration
+      echo "This option has been removed. Please use option 1 to edit environment variables directly."
+      read -p "Press Enter to continue..."
       ;;
     5)
       # Export Variables to Current Shell
       echo "To export variables, you need to source the script directly:"
-      echo "source ./env-tools/export-env.sh"
+      echo "source ./env-tools/env-export.sh"
       read -p "Press Enter to continue..."
       ;;
     6)
@@ -125,20 +153,18 @@ while true; do
       echo
       echo "File Locations:"
       echo "- Main .env file: $(pwd)/.env"
-      echo "- Setup script: $(pwd)/setup-env.sh"
-      echo "- Pre-configured setup: $(pwd)/my-setup-env.sh"
+      echo "- Setup wizard: $(pwd)/env-tools/env-setup.sh"
       echo "- Utility scripts: $(pwd)/env-tools/"
       echo
       echo "Documentation:"
       echo "- For a complete reference of all environment variables,"
-      echo "  see: $(pwd)/ENV-REFERENCE.md"
+      echo "  see: $(pwd)/env-tools/ENV-REFERENCE.md"
       echo
       echo "Usage Tips:"
-      echo "1. Run setup-env.sh to create a new .env file interactively"
-      echo "2. Run my-setup-env.sh to use your pre-configured settings"
-      echo "3. Use check-env.sh to validate your configuration"
-      echo "4. Use view-env.sh to see your current settings"
-      echo "5. To export variables to your shell: source env-tools/export-env.sh"
+      echo "1. Run env-setup.sh to manage environment variables"
+      echo "2. Use env-check.sh to validate your configuration"
+      echo "3. Use env-view.sh to see your current settings"
+      echo "4. To export variables to your shell: source env-tools/env-export.sh"
       echo
       read -p "Press Enter to continue..."
       ;;

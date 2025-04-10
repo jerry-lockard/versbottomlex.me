@@ -2,6 +2,20 @@
 
 This project uses environment variables for configuration across different components. Follow this guide to set up your environment correctly.
 
+## ⚠️ IMPORTANT SECURITY WARNING ⚠️
+
+Environment files (`.env`) contain sensitive information including passwords, API keys, and other secrets. 
+
+**NEVER commit actual `.env` files to version control!**
+
+The repository's `.gitignore` is configured to exclude these files, but always exercise caution. If you accidentally commit sensitive information, use the provided script to remove it from Git history:
+
+```bash
+./scripts/remove-env-files.sh
+```
+
+Then immediately rotate any exposed credentials (change passwords, regenerate API keys, etc).
+
 ## Getting Started
 
 1. Copy the example environment file to create your own:
@@ -37,12 +51,19 @@ This project uses environment variables for configuration across different compo
 - `MEDIA_PORT`: Streaming media service port (default: 8888)
 
 ### Security
-- `JWT_SECRET`: Secret key for JWT tokens
-- `JWT_REFRESH_SECRET`: Secret key for refresh tokens
+- `JWT_SECRET`: Secret key for JWT tokens (generate a strong random value)
+- `JWT_REFRESH_SECRET`: Secret key for refresh tokens (generate a strong random value)
 - `JWT_EXPIRES_IN`: JWT token expiration (default: 15m)
 - `JWT_REFRESH_EXPIRES_IN`: Refresh token expiration (default: 7d)
 - `JWT_ISSUER`: JWT token issuer (your domain)
 - `JWT_AUDIENCE`: JWT audience (typically your API name)
+
+> **Security Tip**: Generate strong random values for secrets using:
+> ```bash
+> node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+> # or
+> openssl rand -hex 32
+> ```
 
 ### Frontend Configuration
 - `FRONTEND_URL`: Frontend URL for CORS (default: http://localhost:3000)

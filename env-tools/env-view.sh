@@ -3,7 +3,7 @@
 # This script displays the current environment variables in a formatted way
 
 if [ ! -f .env ]; then
-  echo "Error: No .env file found. Run setup-env.sh first to create one."
+  echo "Error: No .env file found. Run env-setup.sh first to create one."
   exit 1
 fi
 
@@ -54,6 +54,5 @@ echo
 echo "====================================================="
 echo "To modify these variables, use one of these options:"
 echo "  - Edit .env directly"
-echo "  - Run ./setup-env.sh for interactive setup"
-echo "  - Run ./my-setup-env.sh for your predefined setup"
+echo "  - Run ./env-tools/env-setup.sh for interactive setup"
 echo "====================================================="

@@ -3,7 +3,7 @@
 # This script exports all environment variables from .env to the current shell
 
 if [ ! -f .env ]; then
-  echo "Error: No .env file found. Run setup-env.sh first to create one."
+  echo "Error: No .env file found. Run env-setup.sh first to create one."
   exit 1
 fi
 
@@ -14,7 +14,7 @@ echo
 echo "This script will export all environment variables from .env"
 echo "to your current shell session."
 echo
-echo "Usage: source ./env-tools/export-env.sh"
+echo "Usage: source ./env-tools/env-export.sh"
 echo
 echo "NOTE: You must use 'source' or '.' command to run this script"
 echo "      for the exports to affect your current shell."

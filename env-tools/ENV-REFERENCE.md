@@ -2,6 +2,23 @@
 
 This document provides a comprehensive reference for all environment variables used throughout the application. Use it as a guide when configuring your development, testing, and production environments.
 
+## ⚠️ SECURITY WARNING
+
+Environment files (`.env`) contain sensitive information such as:
+- Database credentials
+- API secrets and keys
+- JWT tokens
+- Other security credentials
+
+**NEVER commit actual .env files to version control!**
+
+Use the following practices instead:
+1. Always use `.env.example` files with dummy/placeholder values
+2. Ensure all `.env*` files are properly listed in your `.gitignore`
+3. Use the environment management scripts in this directory to safely handle your configurations
+4. Generate secure random values for all security-related variables
+5. Consider using a secrets management solution for production environments
+
 ## Table of Contents
 
 1. [Core Application Settings](#core-application-settings)
