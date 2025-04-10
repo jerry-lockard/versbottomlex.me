@@ -4,25 +4,25 @@ services:
   # PostgreSQL Database
   db:
     image: postgres:14-alpine
-    container_name: versbottomlex-db
+    container_name: ${APP_NAME:-app}-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: versbottomlex
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-app_database}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
-      - versbottomlex-network
+      - ${APP_NAME:-app}-network
 
   # Node.js Backend API
   api:
     build:
       context: ../backend
       dockerfile: ../docker/backend.Dockerfile
-    container_name: versbottomlex-api
+    container_name: ${APP_NAME:-app}-api
     restart: unless-stopped
     depends_on:
       - db
@@ -31,26 +31,26 @@ services:
       PORT: 5000
       DB_HOST: db
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: versbottomlex
-      JWT_SECRET: your_super_secret_token_here
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-app_database}
+      JWT_SECRET: ${JWT_SECRET:-your_jwt_secret_key}
       JWT_EXPIRE: 24h
-      FRONTEND_URL: http://localhost:3000
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
     ports:
       - "5000:5000"
     volumes:
       - ../backend:/app
       - /app/node_modules
     networks:
-      - versbottomlex-network
+      - ${APP_NAME:-app}-network
 
   # Flutter Web Frontend
   frontend:
     build:
       context: ../frontend
       dockerfile: ../docker/frontend.Dockerfile
-    container_name: versbottomlex-frontend
+    container_name: ${APP_NAME:-app}-frontend
     restart: unless-stopped
     ports:
       - "3000:80"
@@ -58,14 +58,14 @@ services:
       - ../frontend:/app
       - /app/build
     networks:
-      - versbottomlex-network
+      - ${APP_NAME:-app}-network
     depends_on:
       - api
 
   # Nginx Proxy
   nginx:
     image: nginx:alpine
-    container_name: versbottomlex-nginx
+    container_name: ${APP_NAME:-app}-nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -79,19 +79,19 @@ services:
       - api
       - frontend
     networks:
-      - versbottomlex-network
+      - ${APP_NAME:-app}-network
 
   # Certbot for SSL certificates
   certbot:
     image: certbot/certbot
-    container_name: versbottomlex-certbot
+    container_name: ${APP_NAME:-app}-certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot --webroot-path=/var/www/certbot --email your-email@example.com --agree-tos --no-eff-email -d versbottomlex.me -d www.versbottomlex.me
+    command: certonly --webroot --webroot-path=/var/www/certbot --email ${ADMIN_EMAIL:-your-email@example.com} --agree-tos --no-eff-email -d ${PRIMARY_DOMAIN:-example.com} -d www.${PRIMARY_DOMAIN:-example.com}
 
 networks:
-  versbottomlex-network:
+  ${APP_NAME:-app}-network:
     driver: bridge
 
 volumes:

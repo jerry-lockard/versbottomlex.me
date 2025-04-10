@@ -1,14 +1,14 @@
 #!/bin/bash
 # ============================================================================
-# VersBottomLex.me - SSL Certificate Setup and Auto-Renewal Script
+# SSL Certificate Setup and Auto-Renewal Script
 # ============================================================================
 # This script handles installation of Certbot, obtaining certificates,
 # configuring Nginx for HTTPS, and setting up auto-renewal for the
-# VersBottomLex.me webcam streaming platform.
+# streaming platform.
 #
 # Usage: 
-#   export PRIMARY_DOMAIN="versbottomlex.me"
-#   export EMAIL="admin@versbottomlex.me"
+#   export PRIMARY_DOMAIN="example.com"
+#   export EMAIL="admin@example.com"
 #   sudo -E bash scripts/ssl-setup.sh
 # ============================================================================
 

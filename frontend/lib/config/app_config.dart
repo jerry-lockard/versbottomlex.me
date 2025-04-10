@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'dart:io' show Platform;
 
 enum Environment { dev, staging, prod }
 
@@ -15,25 +16,34 @@ class AppConfig {
   late String socketUrl;
   late String rtmpUrl;
 
+  // Environment variables getter
+  String _getEnv(String key, String defaultValue) {
+    return Platform.environment[key] ?? defaultValue;
+  }
+
   // Initialize configuration
   void initialize({Environment env = Environment.dev}) {
     environment = env;
 
+    // Get domain from environment variables if available
+    final String primaryDomain = _getEnv('PRIMARY_DOMAIN', 'example.com');
+    final String apiPort = _getEnv('API_PORT', '3000');
+    
     switch (environment) {
       case Environment.dev:
-        apiBaseUrl = 'http://localhost:3000/api';
-        socketUrl = 'http://localhost:3000';
-        rtmpUrl = 'rtmp://localhost/live';
+        apiBaseUrl = _getEnv('DEV_API_URL', 'http://localhost:$apiPort/api');
+        socketUrl = _getEnv('DEV_SOCKET_URL', 'http://localhost:$apiPort');
+        rtmpUrl = _getEnv('DEV_RTMP_URL', 'rtmp://localhost/live');
         break;
       case Environment.staging:
-        apiBaseUrl = 'https://staging-api.versbottomlex.me/api';
-        socketUrl = 'https://staging-api.versbottomlex.me';
-        rtmpUrl = 'rtmp://staging-stream.versbottomlex.me/live';
+        apiBaseUrl = _getEnv('STAGING_API_URL', 'https://staging-api.$primaryDomain/api');
+        socketUrl = _getEnv('STAGING_SOCKET_URL', 'https://staging-api.$primaryDomain');
+        rtmpUrl = _getEnv('STAGING_RTMP_URL', 'rtmp://staging-stream.$primaryDomain/live');
         break;
       case Environment.prod:
-        apiBaseUrl = 'https://api.versbottomlex.me/api';
-        socketUrl = 'https://api.versbottomlex.me';
-        rtmpUrl = 'rtmp://stream.versbottomlex.me/live';
+        apiBaseUrl = _getEnv('PROD_API_URL', 'https://api.$primaryDomain/api');
+        socketUrl = _getEnv('PROD_SOCKET_URL', 'https://api.$primaryDomain');
+        rtmpUrl = _getEnv('PROD_RTMP_URL', 'rtmp://stream.$primaryDomain/live');
         break;
     }
 
@@ -46,7 +56,7 @@ class AppConfig {
   }
 
   // App-wide constants
-  static const String appName = 'VersBottomLex';
+  static const String appName = 'MyApp';  // Replace with your app name
   static const String appVersion = '1.0.0';
   
   // Feature flags

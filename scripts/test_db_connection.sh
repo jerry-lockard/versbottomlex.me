@@ -1,9 +1,9 @@
 #!/bin/bash
 # ============================================================================
-# VersBottomLex.me - Database Connection Test Script
+# Database Connection Test Script
 # ============================================================================
 # This script tests the connection to the PostgreSQL database for the
-# VersBottomLex.me webcam streaming platform.
+# streaming platform.
 #
 # Usage: bash scripts/test_db_connection.sh
 # ============================================================================
@@ -20,7 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
 echo -e "${BLUE}==================================================${NC}"
-echo -e "${BLUE}    VersBottomLex.me - Database Connection Test    ${NC}"
+echo -e "${BLUE}    Database Connection Test    ${NC}"
 echo -e "${BLUE}==================================================${NC}"
 
 # Function to check if a command exists
@@ -74,7 +74,7 @@ if [ -z "${DB_USER:-}" ]; then
   # Check required environment variables
   DB_USER=${DB_USER:-$USER}
   DB_PASSWORD=${DB_PASSWORD:-}
-  DB_NAME=${DB_NAME:-versbottomlex}
+  DB_NAME=${DB_NAME:-app_database}
   
   # Prompt for password if not set
   if [ -z "$DB_PASSWORD" ]; then

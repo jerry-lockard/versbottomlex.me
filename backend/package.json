@@ -13,9 +13,9 @@
     "streaming",
     "api"
   ],
-  "author": "Dakota Alexander <dakota@versbottomlex.me>",
+  "author": "Your Name <you@example.com>",
   "license": "MIT",
-  "description": "Backend for versbottomlex.me",
+  "description": "Backend API for streaming platform",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

@@ -16,6 +16,6 @@ module.exports = {
   refreshSecret: process.env.JWT_REFRESH_SECRET, // Separate secret for refresh tokens
   expiresIn: process.env.JWT_EXPIRES_IN || '15m', // Shorter expiry for access tokens
   refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
-  issuer: process.env.JWT_ISSUER || 'versbottomlex.me',
-  audience: process.env.JWT_AUDIENCE || 'versbottomlex-api',
+  issuer: process.env.JWT_ISSUER || 'example.com',
+  audience: process.env.JWT_AUDIENCE || 'app-api',
 };

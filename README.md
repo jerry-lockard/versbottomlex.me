@@ -153,7 +153,17 @@ Future plans:
 1. Clone the repository
 2. Setup frontend: `cd frontend && flutter pub get`
 3. Setup backend: `cd backend && npm install`
-4. Configure environment variables (see `.env.example` files in both directories)
+4. Configure environment variables using our tools (see next section)
+
+### 🔧 **Environment Variables Setup**
+We provide several tools to help you configure your environment variables:
+
+- **Interactive Wizard**: `./env-tools/setup-env-wizard.sh` - Menu-driven interface for all env tasks
+- **Quick Setup**: `./env-tools/my-setup-env.sh` - Use pre-configured settings
+- **Validation**: `./env-tools/check-env.sh` - Verify your configuration is correct
+- **Reference**: See `./env-tools/ENV-REFERENCE.md` for complete documentation
+
+For detailed instructions, check the README in the `env-tools` directory.
 
 ### 🚀 **Running the Application**
 - Frontend: `cd frontend && flutter run`
